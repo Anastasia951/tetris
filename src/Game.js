@@ -61,4 +61,17 @@ export class Game {
       }
     }
   }
+
+  rotate() {
+    const { blocks } = this.activePiece
+    const N = blocks.length - 1;
+    let newBlocks = blocks.map((row, i) =>
+      row.map((_, j) => blocks[N - j][i])
+    )
+
+    if (!this.isOutOfBounds()) {
+      this.activePiece.blocks = newBlocks
+    }
+
+  }
 }
