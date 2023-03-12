@@ -28,6 +28,7 @@ export class Game {
 
     return {
       blocks,
+      color: this.rndIndex,
       y: 0,
       x: Math.floor(Math.random() * (this.cols - 2))
     }
@@ -51,15 +52,17 @@ export class Game {
     this.activePiece.y++
 
     if (this.isOutOfBounds()) {
-      this.activePiece.y++
+      this.activePiece.y--
     }
   }
 
   isOutOfBounds() {
     let { x, y, blocks } = this.activePiece
+    console.log(this.field, this.activePiece)
     for (let i = 0; i < blocks.length; i++) {
       for (let j = 0; j < blocks[i].length; j++) {
-        if (blocks[i][j] !== 0 && (this.playfield[i + y] === undefined || this.playfield[i + y][j + x] === undefined) || this.playfield[i + y][x + j]) return true
+        if (blocks[i][j] === 0) continue
+        if ((this.playfield[i + y] === undefined || this.playfield[i + y][j + x] === undefined) || this.playfield[i + y][x + j]) return true
       }
     }
     return false

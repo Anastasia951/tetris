@@ -25,9 +25,32 @@ export class View {
         }
       }
     }
+
   }
 
-  clear() {
-    this.ctx.clearRect(0, 0, 400, 800)
+  clearActivePiece({ x, y, blocks }) {
+    this.ctx.fillStyle = this.colors[0]
+    for (let i = 0; i < blocks.length; i++) {
+      for (let j = 0; j < blocks[i].length; j++) {
+        if (blocks[i][j]) {
+          let col = x + j
+          let row = y + i
+          this.ctx.fillRect(col * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize)
+          this.ctx.strokeRect(col * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize)
+        }
+      }
+    }
+  }
+
+  renderActivePiece({ blocks, x, y }) {
+    for (let i = 0; i < blocks.length; i++) {
+      for (let j = 0; j < blocks[i].length; j++) {
+        this.ctx.fillStyle = this.colors[blocks[i][j]]
+        let col = x + j
+        let row = y + i
+        this.ctx.fillRect(col * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize)
+        this.ctx.strokeRect(col * this.cellSize, row * this.cellSize, this.cellSize, this.cellSize)
+      }
+    }
   }
 }
