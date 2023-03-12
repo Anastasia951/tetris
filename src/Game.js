@@ -1,3 +1,4 @@
+import { figures } from "./figures"
 import { genEmptyField } from "./helpers/genEmptyField"
 const ROWS = 20
 const COLS = 10
@@ -7,18 +8,32 @@ export class Game {
   level = 0
   rows = ROWS
   cols = COLS
-
   playfield = genEmptyField(ROWS, COLS)
+  tetraminos = figures
+  names = Object.keys(figures)
 
-  activePiece = {
-    x: 0,
-    y: 0,
-    blocks: [
-      [1, 1, 1],
-      [0, 1, 0],
-      [0, 0, 0],
-    ]
+  get field() {
+    return this.playfield
   }
+  activePiece = null
+
+  set activePiece(figure) {
+    this.activePiece = figure
+  }
+  getNextTetramino() {
+    let rndIndex = Math.floor(Math.random() * this.names.length)
+
+    let name = this.names[rndIndex]
+    let blocks = this.tetraminos[name]
+
+    return {
+      blocks,
+      y: 0,
+      x: Math.floor(Math.random() * (this.cols - 2))
+    }
+  }
+
+
   movePieceLeft() {
     this.activePiece.x--
 
@@ -72,6 +87,5 @@ export class Game {
     if (!this.isOutOfBounds()) {
       this.activePiece.blocks = newBlocks
     }
-
   }
 }
