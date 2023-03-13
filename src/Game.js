@@ -65,6 +65,7 @@ export class Game {
     for (let i = 0; i < blocks.length; i++) {
       for (let j = 0; j < blocks[i].length; j++) {
         if (blocks[i][j] === 0) continue
+
         if ((this.playfield[i + y] === undefined || this.playfield[i + y][j + x] === undefined) || this.playfield[i + y][x + j]) return true
       }
     }
@@ -80,6 +81,28 @@ export class Game {
           this.playfield[i + y][j + x] = blocks[i][j]
         }
       }
+    }
+
+    this.removeFullLines()
+  }
+
+  removeFullLines() {
+    let { blocks, x, y } = this.activePiece
+    for (let i = 0; i < this.field.length; i++) {
+      let row = this.field[i]
+      if (row.every(el => !!el)) {
+        this.field.splice(i, 1)
+        if (i - y < blocks.length) {
+          blocks.splice(i - y, 1)
+          blocks.unshift(new Array(blocks.length).fill(0))
+        }
+        i--
+      }
+    }
+
+    let diff = this.rows - this.field.length
+    for (let i = 0; i < diff; i++) {
+      this.field.unshift(new Array(this.cols).fill(0))
     }
   }
 
