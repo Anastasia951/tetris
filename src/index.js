@@ -3,16 +3,15 @@ import { Game } from './Game'
 import { View } from './View'
 
 const game = new Game()
+game.init()
 const view = new View()
+view.init('#canvas')
 window.game = game
 
 
-view.init('#canvas')
 view.render(game.field)
-let figure = game.getNextTetramino()
-game.activePiece = figure
-let activePiece = game.activePiece
 document.addEventListener('keydown', event => {
+  let activePiece = game.activePiece
   view.clearActivePiece(activePiece)
   if (event.key === 'ArrowUp') {
     game.rotate()
@@ -24,5 +23,5 @@ document.addEventListener('keydown', event => {
     game.movePieceRight()
   }
   view.render(game.field)
-  view.renderActivePiece(activePiece)
+  view.renderActivePiece(game.field, activePiece)
 })

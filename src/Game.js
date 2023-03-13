@@ -11,11 +11,14 @@ export class Game {
   playfield = genEmptyField(ROWS, COLS)
   tetraminos = figures
   names = Object.keys(figures)
+  activePiece = null
 
   get field() {
     return this.playfield
   }
-  activePiece = null
+  init() {
+    this.activePiece = this.getNextTetramino()
+  }
 
   set activePiece(figure) {
     this.activePiece = figure
@@ -28,9 +31,8 @@ export class Game {
 
     return {
       blocks,
-      color: this.rndIndex,
       y: -1,
-      x: Math.floor(Math.random() * (this.cols - 2))
+      x: Math.floor(Math.random() * (this.cols - blocks.length))
     }
   }
 
@@ -53,6 +55,8 @@ export class Game {
 
     if (this.isOutOfBounds()) {
       this.activePiece.y--
+      this.insertPiece()
+      this.activePiece = this.getNextTetramino()
     }
   }
 
