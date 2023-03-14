@@ -12,6 +12,8 @@ export class View {
     this.canvas.height = 800
     this.ctx = this.canvas.getContext('2d')
     this.ctx.strokeStyle = 'white'
+
+    this.scoreElem = document.querySelector(`[data-score]`)
   }
 
   render(field) {
@@ -24,7 +26,10 @@ export class View {
         }
       }
     }
+  }
 
+  renderScore(score) {
+    this.scoreElem.innerHTML = score
   }
 
   clearActivePiece({ x, y, blocks }) {

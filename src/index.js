@@ -26,10 +26,17 @@ document.addEventListener('keydown', event => {
 })
 
 
-setInterval(() => {
-  activePiece = game.activePiece
-  view.clearActivePiece(activePiece)
-  game.movePieceDown()
-  view.render(game.field)
-  view.renderActivePiece(game.field, activePiece)
+let timerId = setInterval(() => {
+  if (game.isGameOver) {
+    console.log('END')
+    clearInterval(timerId)
+  } else {
+
+    activePiece = game.activePiece
+    view.clearActivePiece(activePiece)
+    game.movePieceDown()
+    view.renderScore(game.score)
+    view.render(game.field)
+    view.renderActivePiece(game.field, activePiece)
+  }
 }, 500)

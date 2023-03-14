@@ -4,15 +4,13 @@ const ROWS = 20
 const COLS = 10
 export class Game {
   score = 0
-  lines = 0
-  level = 0
   rows = ROWS
   cols = COLS
   playfield = genEmptyField(ROWS, COLS)
   tetraminos = figures
   names = Object.keys(figures)
   activePiece = null
-
+  isGameOver = false
   get field() {
     return this.playfield
   }
@@ -74,10 +72,13 @@ export class Game {
 
   insertPiece() {
     let { blocks, x, y } = this.activePiece
-
     for (let i = 0; i < blocks.length; i++) {
       for (let j = 0; j < blocks[i].length; j++) {
         if (blocks[i][j]) {
+          if (i + y < 0) {
+            this.isGameOver = true
+            return
+          }
           this.playfield[i + y][j + x] = blocks[i][j]
         }
       }
@@ -88,19 +89,22 @@ export class Game {
 
   removeFullLines() {
     let { blocks, x, y } = this.activePiece
+    const blocksCopy = [...blocks]
+    this.activePiece.blocks = blocksCopy
     for (let i = 0; i < this.field.length; i++) {
       let row = this.field[i]
       if (row.every(el => !!el)) {
         this.field.splice(i, 1)
         if (i - y < blocks.length) {
-          blocks.splice(i - y, 1)
-          blocks.unshift(new Array(blocks.length).fill(0))
+          blocksCopy.splice(i - y, 1)
+          blocksCopy.unshift(new Array(blocks.length).fill(0))
         }
         i--
       }
     }
 
     let diff = this.rows - this.field.length
+    this.score += diff
     for (let i = 0; i < diff; i++) {
       this.field.unshift(new Array(this.cols).fill(0))
     }
