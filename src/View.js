@@ -1,15 +1,15 @@
 export class View {
   canvas = null
   ctx = null
-  cellSize = 40
-  colors = ['darkgray', 'aqua', 'blue', 'orange', 'yellow', 'green', 'violet', 'red']
+  cellSize = 50
+  colors = ['lightgray', 'aqua', 'blue', 'orange', 'yellow', 'green', 'violet', 'red']
 
   init(selector) {
     this.canvas = document.querySelector(selector)
-    this.canvas.style.width = 200 + 'px'
-    this.canvas.style.height = 400 + 'px'
-    this.canvas.width = 400
-    this.canvas.height = 800
+    this.canvas.style.width = this.cellSize * 5 + 'px'
+    this.canvas.style.height = this.cellSize * 10 + 'px'
+    this.canvas.width = this.cellSize * 10
+    this.canvas.height = this.cellSize * 20
     this.ctx = this.canvas.getContext('2d')
     this.ctx.strokeStyle = 'white'
 
@@ -26,6 +26,13 @@ export class View {
         }
       }
     }
+  }
+
+  showResult() {
+    this.ctx.font = "48px Arial";
+    this.ctx.fillStyle = 'black'
+    this.ctx.textAlign = 'left'
+    this.ctx.fillText('End Game', this.canvas.width / 2 - this.cellSize * 2, this.canvas.height / 2)
   }
 
   renderScore(score) {

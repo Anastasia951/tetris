@@ -2,6 +2,8 @@ import { figures } from "./figures"
 import { genEmptyField } from "./helpers/genEmptyField"
 const ROWS = 20
 const COLS = 10
+
+
 export class Game {
   score = 0
   rows = ROWS
@@ -11,6 +13,7 @@ export class Game {
   names = Object.keys(figures)
   activePiece = null
   isGameOver = false
+  timer = null
   get field() {
     return this.playfield
   }
@@ -121,5 +124,22 @@ export class Game {
     if (this.isOutOfBounds()) {
       this.activePiece.blocks = blocks
     }
+  }
+
+  endGame() {
+    this.score = 0
+    this.rows = ROWS
+    this.cols = COLS
+    this.playfield = genEmptyField(ROWS, COLS)
+    this.activePiece = null
+  }
+  clearTimer() {
+    clearInterval(this.timer)
+  }
+
+  startGame(cb) {
+    this.timer = setInterval(() => {
+      cb()
+    }, 500)
   }
 }

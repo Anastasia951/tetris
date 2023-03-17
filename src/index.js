@@ -6,10 +6,15 @@ const game = new Game()
 game.init()
 const view = new View()
 view.init('#canvas')
-window.game = game
 let activePiece = null
 view.render(game.field)
+
+
 document.addEventListener('keydown', event => {
+  if (game.isGameOver && event.key === ' ') {
+    game.isGameOver = false
+    game.startGame(play)
+  }
   if (activePiece) {
     if (event.key === 'ArrowUp') {
       game.rotate()
@@ -25,13 +30,12 @@ document.addEventListener('keydown', event => {
   }
 })
 
-
-let timerId = setInterval(() => {
+function play() {
   if (game.isGameOver) {
-    console.log('END')
-    clearInterval(timerId)
+    view.showResult()
+    game.endGame()
+    game.clearTimer()
   } else {
-
     activePiece = game.activePiece
     view.clearActivePiece(activePiece)
     game.movePieceDown()
@@ -39,4 +43,6 @@ let timerId = setInterval(() => {
     view.render(game.field)
     view.renderActivePiece(game.field, activePiece)
   }
-}, 500)
+}
+
+game.startGame(play)
