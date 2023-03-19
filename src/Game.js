@@ -138,6 +138,7 @@ export class Game {
   }
 
   startGame(cb) {
+    this.activePiece = this.getNextTetramino()
     this.timer = setInterval(() => {
       cb()
     }, 500)
